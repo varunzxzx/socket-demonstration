@@ -12,10 +12,12 @@ $(function() {
         // var x = document.getElementById("myAudio");
         // x.play();
         sound.play();
+        $(".bar").css("display","block");
     });
     socket.on('stop',function(data) {
         // var x = document.getElementById("myAudio");
         // x.pause();
+        $(".bar").css("display","none");
         sound.stop();
     });
 })

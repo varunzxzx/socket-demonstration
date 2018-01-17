@@ -10,6 +10,7 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
 let users = [];
+let selected;
 
 io.on('connection',(socket) => {
   // console.log(socket.id)
@@ -21,14 +22,15 @@ io.on('connection',(socket) => {
 
   socket.on('play',(data) => {
     if(users.length !== 0) {
-        io.to(users[0]).emit('play','play');
-        socket.emit('played',"Played!")
+      selected = Math.floor(Math.random()*100)%users.length;
+      io.to(users[selected]).emit('play','play');
+      socket.emit('played',"Played!");
     }
   });
 
   socket.on('stop',(data) => {
-    io.to(users[0]).emit('stop','stop');
-    socket.emit('stopped',"Stopped!")
+    io.to(users[selected]).emit('stop','stop');
+    socket.emit('stopped',"Stopped!");
   })
 
   socket.on("admin",(data) => {
